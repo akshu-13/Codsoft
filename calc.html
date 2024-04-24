@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .calculator {
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            width: 300px;
+        }
+
+        .display {
+            background-color: #f8f8f8;
+            padding: 10px;
+            text-align: right;
+            font-size: 20px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+        }
+
+        button {
+            padding: 20px;
+            font-size: 20px;
+            border: none;
+            cursor: pointer;
+            background-color: #e0e0e0;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #d1d1d1;
+        }
+
+        .buttons button.operator {
+            background-color: #ff9500;
+            color: #fff;
+        }
+
+        .buttons button.operator:hover {
+            background-color: #e88100;
+        }
+
+        .buttons button.clear {
+            background-color: #f34949;
+            color: #fff;
+        }
+
+        .buttons button.clear:hover {
+            background-color: #e63f3f;
+        }
+
+        .buttons button.equal {
+            background-color: #4cd964;
+            color: #fff;
+        }
+
+        .buttons button.equal:hover {
+            background-color: #42ba54;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="display" id="display">0</div>
+        <div class="buttons">
+            <button onclick="appendNumber('7')">7</button>
+            <button onclick="appendNumber('8')">8</button>
+            <button onclick="appendNumber('9')">9</button>
+            <button class="operator" onclick="appendOperator('+')">+</button>
+            <button onclick="appendNumber('4')">4</button>
+            <button onclick="appendNumber('5')">5</button>
+            <button onclick="appendNumber('6')">6</button>
+            <button class="operator" onclick="appendOperator('-')">-</button>
+            <button onclick="appendNumber('1')">1</button>
+            <button onclick="appendNumber('2')">2</button>
+            <button onclick="appendNumber('3')">3</button>
+            <button class="operator" onclick="appendOperator('*')">*</button>
+            <button onclick="appendNumber('0')">0</button>
+            <button class="clear" onclick="clearDisplay()">C</button>
+            <button class="equal" onclick="calculateResult()">=</button>
+            <button class="operator" onclick="appendOperator('/')">/</button>
+        </div>
+    </div>
+
+    <script>
+        let currentInput = '';
+        let currentOperator = '';
+        let result = 0;
+
+        function appendNumber(number) {
+            currentInput += number;
+            updateDisplay(currentInput);
+        }
+
+        function appendOperator(operator) {
+            if (currentInput !== '') {
+                currentOperator = operator;
+                result = parseFloat(currentInput);
+                currentInput = '';
+                updateDisplay(result);
+            }
+        }
+
+        function calculateResult() {
+            if (currentInput !== '') {
+                let secondNumber = parseFloat(currentInput);
+                switch (currentOperator) {
+                    case '+':
+                        result += secondNumber;
+                        break;
+                    case '-':
+                        result -= secondNumber;
+                        break;
+                    case '*':
+                        result *= secondNumber;
+                        break;
+                    case '/':
+                        result /= secondNumber;
+                        break;
+                }
+                updateDisplay(result);
+                currentInput = '';
+            }
+        }
+
+        function clearDisplay() {
+            currentInput = '';
+            currentOperator = '';
+            result = 0;
+            updateDisplay(result);
+        }
+
+        function updateDisplay(value) {
+            document.getElementById('display').innerText = value;
+        }
+    </script>
+</body>
+</html>
